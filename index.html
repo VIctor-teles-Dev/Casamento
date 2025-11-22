@@ -130,12 +130,12 @@
     <!-- Floating Sparkles (JS will populate) -->
     <div id="sparkle-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
-    <!-- Music Player (Visual Only) -->
-    <div class="fixed top-4 right-4 z-50 glass-card rounded-full p-2 pr-4 flex items-center gap-2 cursor-pointer hover:bg-white transition-all duration-300 animate-pulse">
+    <!-- Music Player (Tocar/Pausar em loop) -->
+    <div id="music-toggle" role="button" aria-pressed="false" class="fixed top-4 right-4 z-50 glass-card rounded-full p-2 pr-4 flex items-center gap-2 cursor-pointer hover:bg-white transition-all duration-300 animate-pulse">
         <div class="w-8 h-8 bg-pink-200 rounded-full flex items-center justify-center text-deep-rose">
-            <i data-lucide="music" class="w-4 h-4"></i>
+            <i data-lucide="play" id="music-icon" class="w-4 h-4"></i>
         </div>
-        <span class="text-xs font-semibold tracking-widest text-deep-rose uppercase hidden sm:block">Tocando: La Vie En Rose</span>
+        <span id="music-label" class="text-xs font-semibold tracking-widest text-deep-rose uppercase hidden sm:block">Tocando: La Vie En Rose</span>
     </div>
 
     <!-- Hero Section -->
@@ -143,10 +143,7 @@
         <!-- Decorative Background Circle -->
         <div class="absolute w-[600px] h-[600px] bg-pink-200 rounded-full blur-[100px] opacity-30 -z-10 animate-pulse"></div>
         
-        <!-- Ornamental Top Border -->
-        <div class="mb-8 text-pink-300">
-            <img src="https://img.icons8.com/ios/100/ffb6c1/page-divider.png" alt="ornament" class="w-32 md:w-48 opacity-80 mx-auto" />
-        </div>
+
 
         <p class="text-xl md:text-2xl text-deep-rose italic tracking-widest uppercase mb-4 reveal active">O casamento de</p>
         
@@ -340,10 +337,56 @@
         </div>
     </footer>
 
+    <!-- Audio source (loop) -->
+    <audio id="bg-audio" src="audio/LaVie.mp3" loop preload="auto"></audio>
+
     <!-- Scripts -->
     <script>
         // Initialize Icons
         lucide.createIcons();
+
+        // Background audio handling (loop + autoplay attempt + toggle)
+        const bgAudio = document.getElementById('bg-audio');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+        const musicLabel = document.getElementById('music-label');
+        let isPlaying = false;
+
+        function setPlaying(state) {
+            isPlaying = state;
+            musicToggle.setAttribute('aria-pressed', state);
+            musicIcon.setAttribute('data-lucide', state ? 'pause' : 'play');
+            musicLabel.textContent = state ? 'Tocando: La Vie En Rose' : 'Pausado';
+            lucide.createIcons();
+        }
+
+        function tryAutoplay() {
+            if (!bgAudio) return;
+            bgAudio.play().then(() => {
+                setPlaying(true);
+            }).catch(() => {
+                // Autoplay foi bloqueado pelo navegador; permanecerá pausado até interação do usuário
+                setPlaying(false);
+            });
+        }
+
+        if (musicToggle) {
+            musicToggle.addEventListener('click', () => {
+                if (!bgAudio) return;
+                if (isPlaying) {
+                    bgAudio.pause();
+                    setPlaying(false);
+                } else {
+                    bgAudio.play().then(() => setPlaying(true)).catch(() => {
+                        // Se ainda for bloqueado, instruir o usuário
+                        alert('Para ouvir a música, permita reprodução e clique novamente.');
+                    });
+                }
+            });
+        }
+
+        // Tenta autoplay curto após carregamento
+        setTimeout(tryAutoplay, 500);
 
         // Sparkle Generator
         function createSparkles() {
