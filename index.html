@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casamento de Victor & Alice</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coquette-pink': '#ffe4e6',
+                        'deep-rose': '#be185d',
+                        'soft-cream': '#fffbf0',
+                        'gold-accent': '#d4af37',
+                    },
+                    fontFamily: {
+                        'script': ['"Pinyon Script"', 'cursive'],
+                        'body': ['"Cormorant Garamond"', 'serif'],
+                        'vibes': ['"Great Vibes"', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'lace-pattern': "url('data:image/svg+xml,%3Csvg width=\\'20\\' height=\\'20\\' viewBox=\\'0 0 20 20\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zM1 5h2v2H1V5zm4 0h2v2H5V5zm4 0h2v2H9V5zM1 9h2v2H1V9zm4 0h2v2H5V9zm4 0h2v2H9V9z\\' fill=\\'%23be185d\\' fill-opacity=\\'0.03\\' fill-rule=\\'evenodd\\'/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations & Decorations */
+        body {
+            background-color: #fff0f5;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(190, 24, 93, 0.1);
+        }
+
+        .text-shadow-glow {
+            text-shadow: 0 0 10px rgba(255, 192, 203, 0.8), 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Sparkle Animation */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 5px gold;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-element {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .float-delayed {
+            animation: float 4s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        /* Reveal on Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ribbon Shape */
+        .ribbon-bow {
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff0f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fbcfe8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f9a8d4;
+        }
+    </style>
+</head>
+<body class="font-body text-gray-700 bg-lace-pattern relative">
+
+    <!-- Floating Sparkles (JS will populate) -->
+    <div id="sparkle-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Music Player (Visual Only) -->
+    <div class="fixed top-4 right-4 z-50 glass-card rounded-full p-2 pr-4 flex items-center gap-2 cursor-pointer hover:bg-white transition-all duration-300 animate-pulse">
+        <div class="w-8 h-8 bg-pink-200 rounded-full flex items-center justify-center text-deep-rose">
+            <i data-lucide="music" class="w-4 h-4"></i>
+        </div>
+        <span class="text-xs font-semibold tracking-widest text-deep-rose uppercase hidden sm:block">Tocando: La Vie En Rose</span>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden p-6 text-center">
+        <!-- Decorative Background Circle -->
+        <div class="absolute w-[600px] h-[600px] bg-pink-200 rounded-full blur-[100px] opacity-30 -z-10 animate-pulse"></div>
+        
+        <!-- Ornamental Top Border -->
+        <div class="mb-8 text-pink-300">
+            <img src="https://img.icons8.com/ios/100/ffb6c1/page-divider.png" alt="ornament" class="w-32 md:w-48 opacity-80 mx-auto" />
+        </div>
+
+        <p class="text-xl md:text-2xl text-deep-rose italic tracking-widest uppercase mb-4 reveal active">O casamento de</p>
+        
+        <h1 class="text-7xl md:text-9xl font-script text-deep-rose mb-2 text-shadow-glow leading-tight reveal active relative z-10">
+            Victor
+            <span class="block text-4xl md:text-6xl text-pink-400 my-2 font-vibes">&</span>
+            Alice
+        </h1>
+
+        <div class="mt-8 relative reveal active">
+             <!-- Bow decoration SVG -->
+            <svg class="w-16 h-16 mx-auto text-pink-300 mb-4 ribbon-bow float-element" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C9 2 7 3.5 7 5.5C7 7.5 9 9 12 9C15 9 17 7.5 17 5.5C17 3.5 15 2 12 2ZM12 11C8 11 3 13 3 17C3 20 6 22 12 22C18 22 21 20 21 17C21 13 16 11 12 11Z" opacity="0.3"/>
+                <path d="M16.5 13C15 13 13.5 14 12 15C10.5 14 9 13 7.5 13C5 13 3 15 3 17.5C3 20 5 22 7.5 22C9.5 22 11 20.5 12 19C13 20.5 14.5 22 16.5 22C19 22 21 20 21 17.5C21 15 19 13 16.5 13ZM7.5 20C6.1 20 5 18.9 5 17.5C5 16.1 6.1 15 7.5 15C8.9 15 10 16.1 10 17.5C10 18.9 8.9 20 7.5 20ZM16.5 20C15.1 20 14 18.9 14 17.5C14 16.1 15.1 15 16.5 15C17.9 15 19 16.1 19 17.5C19 18.9 17.9 20 16.5 20Z"/>
+            </svg>
+            <p class="text-2xl md:text-3xl font-light text-gray-600">Convidam você para o seu conto de fadas</p>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 animate-bounce cursor-pointer">
+            <i data-lucide="chevron-down" class="text-deep-rose w-8 h-8"></i>
+        </div>
+    </header>
+
+    <!-- Couple / Story Section -->
+    <section class="py-20 px-4 relative">
+        <div class="max-w-4xl mx-auto glass-card rounded-[3rem] p-8 md:p-12 text-center border-2 border-pink-100 reveal">
+            <!-- Full Names -->
+            <div class="mb-8">
+                <h2 class="font-body text-xl tracking-widest text-gray-500 uppercase">A Noiva</h2>
+                <h3 class="font-script text-4xl md:text-5xl text-deep-rose mb-4">Alice Martins Bahience Bezerra Bauler</h3>
+                <span class="font-vibes text-3xl text-pink-400">&</span>
+                <h2 class="font-body text-xl tracking-widest text-gray-500 uppercase mt-4">O Noivo</h2>
+                <h3 class="font-script text-4xl md:text-5xl text-deep-rose">Victor Eduardo Teles Chaves</h3>
+            </div>
+
+            <p class="font-body text-xl md:text-2xl leading-relaxed text-gray-600 italic mt-8">
+                "Era uma vez um amor que floresceu como a mais bela rosa em um jardim encantado. 
+                Juntos, escrevemos cada capítulo da nossa história e agora, ansiamos pelo nosso 'felizes para sempre' 
+                ao lado das pessoas que mais amamos."
+            </p>
+
+            <div class="flex justify-center gap-4 mt-8">
+                <i data-lucide="heart" class="text-pink-300 w-6 h-6 fill-pink-100 float-element"></i>
+                <i data-lucide="heart" class="text-pink-400 w-8 h-8 fill-pink-200 float-delayed"></i>
+                <i data-lucide="heart" class="text-pink-300 w-6 h-6 fill-pink-100 float-element"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Section (Card Style) -->
+    <section class="py-16 px-4 bg-white/50 relative overflow-hidden">
+        <!-- Roses decoration -->
+        <div class="absolute top-0 left-0 w-32 h-32 bg-pink-200 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-32 h-32 bg-pink-200 rounded-full blur-[80px] translate-x-1/2 translate-y-1/2"></div>
+
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal">
+            
+            <!-- Photo Placeholder -->
+            <div class="relative group">
+                <div class="absolute -inset-2 bg-pink-200 rounded-[2rem] blur opacity-40 group-hover:opacity-60 transition duration-500"></div>
+                <div class="relative bg-white p-4 rounded-[2rem] shadow-xl rotate-[-2deg] hover:rotate-0 transition duration-500">
+                    <!-- Imagem da igreja inserida diretamente -->
+                    <div class="aspect-[3/4] bg-gray-100 rounded-[1.5rem] overflow-hidden relative">
+                        <img src="img/igreja.jpg" alt="Igreja" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-pink-900/10"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Info -->
+            <div class="text-center md:text-left space-y-8">
+                <h2 class="font-script text-6xl text-deep-rose mb-6">Os Detalhes</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+                        <div class="bg-pink-100 p-3 rounded-full text-deep-rose">
+                            <i data-lucide="calendar-heart" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-body font-bold text-xl uppercase tracking-wider text-gray-800">A Data</h4>
+                            <p class="font-body text-2xl text-pink-600">10 de Maio de 2028</p>
+                            <p class="text-gray-500">Quarta-feira, às 16:30</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+                        <div class="bg-pink-100 p-3 rounded-full text-deep-rose">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-body font-bold text-xl uppercase tracking-wider text-gray-800">O Local</h4>
+                            <p class="font-body text-2xl text-pink-600">Basílica Santuário Conceição da Praia</p>
+                            <p class="text-gray-500 text-lg">R. da Conceição da Praia, S/N - Comércio<br>Salvador - BA</p>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+                        <div class="bg-pink-100 p-3 rounded-full text-deep-rose">
+                            <i data-lucide="shirt" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-body font-bold text-xl uppercase tracking-wider text-gray-800">Dress Code</h4>
+                            <p class="font-body text-2xl text-pink-600">Passeio Completo Romântico</p>
+                            <p class="text-gray-500">Tons pastéis são encorajados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Timer -->
+    <section class="py-20 bg-deep-rose text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        
+        <h2 class="font-script text-5xl md:text-6xl mb-12 relative z-10 reveal">Contagem Regressiva para o Sim</h2>
+        
+        <div class="flex flex-wrap justify-center gap-6 md:gap-12 relative z-10 reveal font-body">
+            <div class="glass-card bg-white/20 p-6 rounded-2xl w-32 border-none backdrop-blur-md">
+                <span id="days" class="block text-4xl md:text-5xl font-bold">00</span>
+                <span class="text-sm uppercase tracking-widest opacity-90">Dias</span>
+            </div>
+            <div class="glass-card bg-white/20 p-6 rounded-2xl w-32 border-none backdrop-blur-md">
+                <span id="hours" class="block text-4xl md:text-5xl font-bold">00</span>
+                <span class="text-sm uppercase tracking-widest opacity-90">Horas</span>
+            </div>
+            <div class="glass-card bg-white/20 p-6 rounded-2xl w-32 border-none backdrop-blur-md">
+                <span id="minutes" class="block text-4xl md:text-5xl font-bold">00</span>
+                <span class="text-sm uppercase tracking-widest opacity-90">Min</span>
+            </div>
+            <div class="glass-card bg-white/20 p-6 rounded-2xl w-32 border-none backdrop-blur-md">
+                <span id="seconds" class="block text-4xl md:text-5xl font-bold">00</span>
+                <span class="text-sm uppercase tracking-widest opacity-90">Seg</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="py-24 px-4 relative flex justify-center">
+        <!-- Envelope Style Container -->
+        <div class="max-w-3xl w-full bg-soft-cream shadow-2xl rounded-xl overflow-hidden relative border border-pink-100 reveal">
+            <!-- Top Flap Design (CSS Triangle approximation) -->
+            <div class="absolute top-0 left-0 w-full h-4 bg-pink-200 opacity-50"></div>
+            
+            <div class="p-8 md:p-16 text-center border-[12px] border-double border-pink-100 m-4">
+                <div class="mb-6">
+                    <i data-lucide="mail-heart" class="w-16 h-16 text-deep-rose mx-auto float-element"></i>
+                </div>
+                
+                <h2 class="font-script text-6xl text-gray-800 mb-4">R.S.V.P.</h2>
+                <p class="font-body text-xl text-gray-600 mb-8">Por favor, confirme sua presença até 20 de Abril de 2028.</p>
+                
+                <form onsubmit="event.preventDefault(); submitRSVP()" class="space-y-6 max-w-md mx-auto text-left font-body">
+                    <div>
+                        <label class="block text-gray-500 uppercase text-xs tracking-widest mb-2">Nome Completo</label>
+                        <input type="text" class="w-full bg-pink-50 border-b-2 border-pink-200 p-3 focus:outline-none focus:border-deep-rose transition-colors rounded-t-lg" placeholder="Seu nome" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-500 uppercase text-xs tracking-widest mb-2">Quantos acompanhantes?</label>
+                        <select class="w-full bg-pink-50 border-b-2 border-pink-200 p-3 focus:outline-none focus:border-deep-rose transition-colors rounded-t-lg">
+                            <option>Apenas eu</option>
+                            <option>Eu + 1</option>
+                            <option>Eu + 2</option>
+                            <option>Eu + 3</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-deep-rose text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-pink-700 hover:shadow-pink-300/50 transition-all duration-300 transform hover:-translate-y-1 uppercase tracking-widest text-sm flex items-center justify-center gap-2">
+                        <span>Confirmar Presença</span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-pink-50 py-12 text-center relative border-t border-pink-100">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <h2 class="font-script text-4xl text-deep-rose mb-4">Victor & Alice</h2>
+            <p class="font-body text-gray-500 italic">Feito com amor, laços e magia.</p>
+            <div class="mt-8 flex justify-center gap-4">
+                <div class="w-2 h-2 rounded-full bg-pink-300"></div>
+                <div class="w-2 h-2 rounded-full bg-pink-300"></div>
+                <div class="w-2 h-2 rounded-full bg-pink-300"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Sparkle Generator
+        function createSparkles() {
+            const container = document.getElementById('sparkle-container');
+            const sparkleCount = 30;
+
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                // Random positioning
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 4 + 2;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 3 + 2;
+
+                sparkle.style.left = `${x}%`;
+                sparkle.style.top = `${y}%`;
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.animation = `sparkle ${duration}s infinite ${delay}s`;
+
+                container.appendChild(sparkle);
+            }
+        }
+        createSparkles();
+
+        // Scroll Reveal Observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Countdown Timer logic
+        const weddingDate = new Date("May 10, 2028 16:30:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "Felizes para Sempre!";
+            }
+        }, 1000);
+
+        // Simple RSVP Alert
+        function submitRSVP() {
+            const btn = document.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<span>Enviado com amor! <i class="inline w-4 h-4 ml-1" data-lucide="check"></i></span>';
+            btn.classList.replace('bg-deep-rose', 'bg-green-500');
+            lucide.createIcons();
+
+            alert("Obrigado por confirmar! Alice e Victor mal podem esperar para vê-lo.");
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.classList.replace('bg-green-500', 'bg-deep-rose');
+                lucide.createIcons();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
